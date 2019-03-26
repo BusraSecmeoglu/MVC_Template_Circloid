@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Urun Detay";
+}
+
+@using MVC_Template.Models
+@model Product
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    URUNLER
+                </div>
+                <div class="block-controls">
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                    <a href="/Urun/UrunEkle" class="btn btn-success rounded" role="button">Ürün Ekle</a>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Urun adı</th>
+                                    <th>Tedarikci</th>
+                                    <th>Kategori</th>
+                                    <th>Birim Miktar</th>
+                                    <th>Fiyat</th>
+                                    <th>Stok</th>
+                                    <th>Yeni Alınan Siparis Miktari</th>
+                                    <th>Yeniden Siparis Noktası</th>
+                                    <th>Statu</th>
+                                    <th>Sil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                        <td onclick="urunClick(@Model.ProductID)">@Model.ProductName</td>
+                                        @if (Model.Supplier?.CompanyName == null)
+                                        {
+                                            <td onclick="urunClick(@Model.ProductID)">
+                                                <span class="label label-info"></span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td onclick="urunClick(@Model.ProductID)">
+                                                <span class="label label-info">@Model.Supplier.CompanyName</span>
+                                            </td>
+
+                                        }
+
+                                        @if (@Model.Category?.CategoryName == null)
+                                        {
+                                            <td onclick="urunClick(@Model.ProductID)">
+                                                <span class="label label-primary"></span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td onclick="urunClick(@Model.ProductID)">
+                                                <span class="label label-primary">@Model.Category.CategoryName</span>
+                                            </td>
+
+
+                                        }
+
+                                        <td onclick="urunClick(@Model.ProductID)">@Model.QuantityPerUnit</td>
+                                        <td onclick="urunClick(@Model.ProductID)">@Model.UnitPrice</td>
+                                        <td onclick="urunClick(@Model.ProductID)">@Model.UnitsInStock</td>
+                                        <td onclick="urunClick(@Model.ProductID)">@Model.UnitsOnOrder</td>
+                                        <td onclick="urunClick(@Model.ProductID)">@Model.ReorderLevel</td>
+
+                                        @if (@Model.Discontinued == true)
+                                        {
+                                            <td class="icon icon-cross highlight-color-red-text" onclick="urunClick(@Model.ProductID)"></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="icon icon-check highlight-color-green-text" onclick="urunClick(@Model.ProductID)"></td>
+                                        }
+                                        <td><a href="/Urun/UrunSil/@Model.ProductID" class="btn btn-danger rounded">Sil</a><a href="/Urun/UrunSorSil/@Model.ProductID" class="btn btn-danger rounded">Sor ve Sil</a></td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

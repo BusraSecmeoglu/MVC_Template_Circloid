@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewBag.Title = "Tedarikciler";
+}
+
+@using MVC_Template.Models;
+@model List<Supplier>
+
+@section head
+{
+    <style>
+        .hata {
+            color: red;
+        }
+    </style>
+
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //$(".tedSil").click(function () {
+            //    alert("deneme");
+            //});
+
+            //$(".tedSil").click(function () {
+            //    var sonuc = confirm("Kayit silinsin mi?");
+            //    if (sonuc) {
+            //        alert("Tamam'a basildi");
+            //    }
+            //    else {
+            //        alert("Iptal'e basildi");
+            //    }
+            //});
+
+            $(".tedSil").click(function () {
+                var sonuc = confirm("Kayit silinsin mi?");
+                if (sonuc) {
+                    var tedID = $(this).data("tedid");
+                    $.ajax({
+                        type: "POST",
+                        url: "/Tedarikci/Sil/" + tedID,
+                        success: function () {
+                            alert("Kayit silindi");
+                            window.location.replace("/Tedarikci/Index");
+                        },
+                        error: function () {
+                            alert("Kayit silme sirasinda hata olustu.");
+                        }
+                    })
+                }
+            });
+
+            $(".modalAc").click(function () {
+                var sirketAdi = $(this).data("tedname");
+                alert(sirketAdi);
+                //$(".modal-body>p.mesaj").html(sirketAdi + " tedarikcisi silinsin mi?");
+                //var id = $(this).data("tedid");
+                //$(".tedModalSil").data("id", id);
+            });
+
+            $(".tedModalSil").click(function () {
+                var tedID = $(this).data("id");
+                //alert(id);
+                $.ajax({
+                    type: "POST",
+                    url: "/Tedarikci/Sil/" + tedID,
+                    success: function (durum) {
+                        if (durum == "OK") {
+                            window.location.replace("/Tedarikci/Index");
+                        }
+                        else {
+                            $(".modal-body>p.hata").html("Tedarikci silme sirasinda hata olustu. Lutfen tekrar deneyiniz.\n" + durum);
+                        }
+                    },
+                    error: function () {
+                        $(".modal-body>p.hata").html("Tedarikci silme sirasinda hata olustu. Lutfen tekrar deneyiniz.");
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Tedarikciler
+                </div>
+                <div class="block-controls">
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                    <a href="/Tedarikci/TedarikciEkle" class="btn btn-success rounded" role="button">Tedarikci Ekle</a>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Sirket Adi</th>
+                                <th>Ilgili Kisi</th>
+                                <th>Ilgili Kisi Unvani</th>
+                                <th>Adres</th>
+                                <th>Sehir</th>
+                                <th>Bolge</th>
+                                <th>Posta Kodu</th>
+                                <th>Ulke</th>
+                                <th>Telefon Numarasi</th>
+                                <th>Fax</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Supplier ted in Model)
+                            {
+                                <tr>
+                                    <td>@ted.CompanyName</td>
+                                    <td>@ted.ContactName</td>
+                                    <td>@ted.ContactTitle</td>
+                                    <td>@ted.Address</td>
+                                    <td>@ted.City</td>
+                                    <td>@ted.Region</td>
+                                    <td>@ted.PostalCode</td>
+                                    <td>@ted.Country</td>
+                                    <td>@ted.Phone</td>
+                                    <td>@ted.Fax</td>
+                                    <td><a href="/Tedarikci/Guncelle/@ted.SupplierID" class="btn btn-primary">Güncelle</a></td>
+                                    <td>
+                                        <a href="#" class="btn btn-danger tedSil" data-tedid="@ted.SupplierID">Alert ile Sil</a>
+                                        <button class="btn btn-danger modalAc" data-toggle="modal" data-target="#small-modal" data-tedid="@ted.SupplierID" data-tedname="@ted.CompanyName">
+                                            Modal Form ile Sil
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal small-modal -->
+@section body{
+    <div class="modal fade small-modal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" data-border-top="multi">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="small-modal-label">Tedarikci Sil</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="mesaj"></p>
+                    <p class="hata"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Iptal</button>
+                    <button type="button" class="btn btn-danger tedModalSil">Evet</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+}

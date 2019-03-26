@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "UrunSorSil";
+}
+
+@using MVC_Template.Models;
+@model Product
+
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12 ">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Urun Silme Sayfası
+                </div>
+                <div class="block-controls">
+                    <a href="/Urun/Index"><span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span></a>
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form action="/Urun/UrunSorSil" method="post" role="form">
+                        <div class="form-group">
+                            <label>@Model.ProductName urunu silinsin mi?</label>
+                            <input type="hidden" name="ProductID" value="@Model.ProductID">
+                            <input type="submit" name="name" value="Evet" class="btn btn-danger">
+                            <a href="/Urun/Index" class="btn btn-default">Hayir</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

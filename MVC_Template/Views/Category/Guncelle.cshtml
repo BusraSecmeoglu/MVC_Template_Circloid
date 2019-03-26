@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Guncelle";
+}
+
+@using MVC_Template.Models;
+@model Category
+
+@section head
+{
+    @* Daha sonra güncellenecek
+        <script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#file").on('change', function () {
+                    console.log(this.files);
+                    if (this.files.length > 0) {
+                        $("#picture").attr("src", this.val())
+                    }
+                });
+            });
+        </script>
+    *@
+}
+
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12 ">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Kategori Guncelleme Sayfası
+                </div>
+                <div class="block-controls">
+                    <a href="/Category/Index"><span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span></a>
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form action="/Category/Guncelle" method="post" role="form" enctype="multipart/form-data">
+                        <input type="hidden" name="CategoryID" value="@Model.CategoryID">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kategori Adı:</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Kategori adı giriniz" name="CategoryName" value="@Model.CategoryName">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Açıklama:</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Açıklama giriniz" name="Description" value="@Model.Description">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2">Resim: </div>
+                                <div class="col-md-5">
+                                    <img src="@String.Format("data:image/jpg;base64,{0}", Model.Base64String)" alt="Kategori Resim" width="100" height="100" id="picture" />
+                                </div>
+                                <div class="col-md-5">
+                                    <input name="Picture" type="file" id="file" />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
